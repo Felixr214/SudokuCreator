@@ -1,6 +1,5 @@
 import solver as slv
 
-
 start_field1 = "000300002000592084050006000306910007070008900508240600900000000200800306000460010"
 start_field2 = "408030005070000002010007000004000300890700060600095000980304500302800910100200080"
 start_field2_1 = "408000005070000002010007000004000300890700060600095000980304500302800910100200080"
@@ -9,11 +8,11 @@ start_field4 = "0050080690602400010000010730000000001503820000849060500010209060
 
 start_fields = [start_field1, start_field2, start_field3, start_field4, start_field2_1]
 i = 1
+s = slv.Solver()
 for start_field in start_fields:
     print(f"id: {i}")
     i += 1
     sudoku = slv.string2Sudoku(start_field)
-    s = slv.Solver()
     s.load(sudoku)
     solutions = s.solve()
     print(f"found {len(solutions)} solutions")

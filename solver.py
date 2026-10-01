@@ -179,6 +179,7 @@ class Solver:
 
     def load(self, sudoku):
         self.sudoku = sudoku
+        self.solutions = []
         self.cells = np.array([[Cell(x, y) for x in range(9)] for y in range(9)])
         for y in range(9):
             for x in range(9):
@@ -257,9 +258,8 @@ class Solver:
             if len(cells_[a].possibleValues) >= 2 and not cells_[a].isFinished:
                 x, y = cells_[a].x, cells_[a].y
                 break
-
+        solver_ = Solver(self.depth + 1)
         for value in self.cells[y][x].possibleValues:
-            solver_ = Solver(self.depth + 1)
             solver_.load(deepcopy(self.sudoku))
             solver_.cells[y][x].solveWithValue(value)
             solver_.update()
