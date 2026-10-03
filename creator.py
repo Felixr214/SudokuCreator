@@ -58,7 +58,7 @@ class TaskCreator(slv.Solver):
 
 class Dataset:
     def __init__(self, name, trainSize, valSize, testSize, taskPerSolution, init=True):
-        self.filename = f"{name}.h5"
+        self.filename = f"datasets/{name}.h5"
         self.testSize = testSize
         self.trainSize = trainSize
         self.valSize = valSize

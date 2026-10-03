@@ -4,7 +4,7 @@ import solver as slv
 
 np.random.seed(1)
 
-ds = crt.Dataset("dataset2", 100, 10, 10, 3, True)
+ds = crt.Dataset("dataset2", 10, 10, 10, 3, True)
 ds.build()
 
 data = ds.read("train")[0]
