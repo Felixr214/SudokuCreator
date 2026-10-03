@@ -185,6 +185,12 @@ class Cell:
             return True
         return False
 
+    def unsolve(self):
+        if self.isFinished:
+            self.possibleValues = np.arange(1, 10, dtype=int).tolist()
+            self.isFinished = False
+            self.value = 0
+
 class Solver:
     def __init__(self, depth=0):
         self.cells = None
@@ -277,6 +283,7 @@ class Solver:
         solver_ = Solver(self.depth + 1)
         for value in self.cells[y][x].possibleValues:
             solver_.load(deepcopy(self.sudoku))
+            #solver_.cells = deepcopy(self.cells)
             solver_.cells[y][x].solveWithValue(value)
             solver_.update()
             solution = solver_.solve()

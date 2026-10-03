@@ -1,3 +1,4 @@
+import time
 import solver as slv
 
 start_field1 = "000300002000592084050006000306910007070008900508240600900000000200800306000460010"
@@ -12,10 +13,12 @@ s = slv.Solver()
 for start_field in start_fields:
     print(f"id: {i}")
     i += 1
+    t0 = time.time()
     sudoku = slv.string2Sudoku(start_field)
     s.load(sudoku)
     solutions = s.solve()
-    print(f"found {len(solutions)} solutions")
+    t1 = time.time()
+    print(f"found {len(solutions)} solutions in {t1-t0}s")
     for solution in solutions:
         print(solution)
     print()
