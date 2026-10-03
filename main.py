@@ -4,12 +4,8 @@ import solver as slv
 
 np.random.seed(1)
 
-c = crt.Creator()
-c.create(1, 30)
-#print(c.allSolutions.shape)
+ds = crt.Dataset("dataset2", 100, 10, 10, 3, True)
+ds.build()
 
-tc = crt.TaskCreator()
-origin = slv.Sudoku()
-origin.sudoku = c.allSolutions[0]
-tc.loadOrigin(origin)
-tc.run(5)
+data = ds.read("train")[0]
+print(len(data))
