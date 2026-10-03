@@ -8,20 +8,19 @@ class Creator(slv.Solver):
     def __init__(self):
         super().__init__()
         self.allSolutions = []
-        self.solutionsPerStart = 2
 
     def randomStart(self, filledOut):
         sudoku = slv.Sudoku()
         sudoku.randomInit(filledOut)
         self.load(sudoku)
 
-    def create(self, amount, filledOut):
+    def create(self, amount, filledOut, solutionsPerStart):
         i = 0
         while len(self.allSolutions) < amount:
             self.randomStart(filledOut)
             solution = self.solve()
             if solution:
-                self.allSolutions += solution[:self.solutionsPerStart]
+                self.allSolutions += solution[:solutionsPerStart]
                 #print(i, len(self.allSolutions))
             i += 1
 
@@ -118,7 +117,7 @@ class Dataset:
         tcrt = TaskCreator()
         sdk = slv.Sudoku()
 
-        crt.create(size // self.tasksPerSolution, 30)
+        crt.create(size // self.tasksPerSolution, 30, max(1,int(size*0.1)))
         labels = crt.allSolutions[:size // self.tasksPerSolution]
 
         numFeatures = 0
