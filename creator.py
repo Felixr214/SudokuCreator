@@ -16,12 +16,15 @@ class Creator(slv.Solver):
 
     def create(self, amount, filledOut, solutionsPerStart):
         i = 0
+        last = -100
         while len(self.allSolutions) < amount:
             self.randomStart(filledOut)
             solution = self.solve()
             if solution:
                 self.allSolutions += solution[:solutionsPerStart]
-                #print(i, len(self.allSolutions))
+                if len(self.allSolutions) - last >= amount/10:
+                    print(len(self.allSolutions)/amount)
+                    last = len(self.allSolutions)
             i += 1
 
         self.allSolutions = np.array(self.allSolutions)
@@ -56,12 +59,13 @@ class TaskCreator(slv.Solver):
             self.tasks.append(deepcopy(previousState.sudoku))
 
 class Dataset:
-    def __init__(self, name, trainSize, valSize, testSize, taskPerSolution, init=True):
+    def __init__(self, name, trainSize, valSize, testSize, taskPerSolution, maxSolutionPerStart, init=True):
         self.filename = f"datasets/{name}.h5"
         self.testSize = testSize
         self.trainSize = trainSize
         self.valSize = valSize
         self.tasksPerSolution = taskPerSolution
+        self.maxSolutionsPerStart = maxSolutionPerStart
 
         if init:
             with h5py.File(self.filename, "w") as f:
@@ -117,7 +121,7 @@ class Dataset:
         tcrt = TaskCreator()
         sdk = slv.Sudoku()
 
-        crt.create(size // self.tasksPerSolution, 30, max(1,int(size*0.1)))
+        crt.create(size // self.tasksPerSolution, 30, self.maxSolutionsPerStart)
         labels = crt.allSolutions[:size // self.tasksPerSolution]
 
         numFeatures = 0
