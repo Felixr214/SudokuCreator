@@ -120,6 +120,22 @@ class Sudoku:
     def __init__(self):
         self.sudoku = np.zeros([9, 9], dtype=int)
 
+    def randomInit(self, filledOut):
+        for a in range(filledOut):
+            repeat = True
+            while repeat:
+                value = np.random.randint(1, 10)
+                x = np.random.randint(0, 9)
+                y = np.random.randint(0, 9)
+                if self.sudoku[y][x] != 0:
+                    repeat = True
+                else:
+                    self.sudoku[y][x] = value
+                    repeat = not self.check()
+                    if repeat:
+                        self.sudoku[y][x] = 0
+
+
     def isFinished(self):
         if 0 in self.sudoku:
             return False
